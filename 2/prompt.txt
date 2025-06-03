@@ -5,3 +5,4 @@ Analyse the line “Logout button doesn’t work on Safari. It just doesn’t re
 - Expected vs Actual Behavior
 - Environment (if known)
 - Severity or Impact
+Make sure the bug ticket description is aligned with all the requirements stated in task description.
