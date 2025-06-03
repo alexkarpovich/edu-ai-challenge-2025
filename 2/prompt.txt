@@ -1,0 +1,7 @@
+Analyse the line “Logout button doesn’t work on Safari. It just doesn’t respond.” and convert information into bug report with the following structure:
+- Title
+- Description
+- Steps to Reproduce
+- Expected vs Actual Behavior
+- Environment (if known)
+- Severity or Impact

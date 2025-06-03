@@ -1,0 +1,33 @@
+Sure, here’s a properly formatted bug report based on the line **“Logout button doesn’t work on Safari. It just doesn’t respond.”**
+
+---
+
+**Title:**
+Logout Button Unresponsive on Safari Browser
+
+**Description:**
+The logout button fails to respond when clicked in the Safari browser. The user is unable to log out of the application as there is no visible or functional response after interacting with the button. This issue affects user session management and may lead to security or usability concerns.
+
+**Steps to Reproduce:**
+
+1. Open the application in the Safari browser.
+2. Log in with valid credentials.
+3. Navigate to any page where the logout button is available.
+4. Click on the logout button.
+
+**Expected vs Actual Behavior:**
+
+* **Expected:** Clicking the logout button should end the user session and redirect them to the login or home page.
+* **Actual:** Clicking the logout button does nothing—there is no response, redirection, or logout action triggered.
+
+**Environment (if known):**
+
+* Browser: Safari (exact version not specified)
+* Platform: macOS (assumed based on Safari usage)
+
+**Severity or Impact:**
+**High** – Users are unable to log out, which can lead to session persistence, privacy concerns, and frustration, especially in shared or public environments.
+
+---
+
+Let me know if you’d like to add version numbers, logs, or assign priority levels.
