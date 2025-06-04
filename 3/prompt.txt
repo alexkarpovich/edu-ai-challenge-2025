@@ -1,0 +1,6 @@
+Your task is to analyse the attached document and perform the following actions:
+- Generate a concise summary of text in the attached document
+- Analyze the sentiment and classify it as positive, neutral, or negative
+- Provide a sentiment score (e.g., -1 for very negative, 0 for neutral, +1 for very positive).
+
+Return the results in a structured JSON format, including all of the above and any relevant metadata you deem useful.
