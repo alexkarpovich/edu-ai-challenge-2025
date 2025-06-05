@@ -1,0 +1,18 @@
+ Analyse processUserData function in the attached file from these perspectives:
+- as an Experienced Developer:
+a) Ensure code readability and adherence to style guides.
+b) Verify logic correctness and functional accuracy.
+c) Validate code reusability and modularization.
+d) Look for code duplication and opportunities for refactoring.
+e) Ensure alignment with team conventions and standards
+
+- as a Security Engineer:
+a) Analyze for common security vulnerabilities (e.g., XSS, SQL injection).
+b) Review input validation and output encoding.
+c) Identify any usage of unsafe dependencies or outdated libraries.
+d) Ensure logging doesn’t expose sensitive information.
+
+- as a Performance Specialist:
+a) Check for inefficient algorithms or slow operations.
+b) Identify potential bottlenecks (e.g., nested loops, heavy DB queries).
+c) Suggest caching strategies where applicable.
