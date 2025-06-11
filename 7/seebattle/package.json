@@ -1,0 +1,26 @@
+{
+  "name": "seebattle",
+  "version": "1.0.0",
+  "description": "A modernized Battleship game implementation",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+  },
+  "keywords": [
+    "battleship",
+    "game",
+    "javascript",
+    "es6"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.4",
+    "typescript": "^5.8.3"
+  }
+}
