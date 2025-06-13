@@ -343,15 +343,33 @@ class ArrayValidator extends Validator {
    * @returns {Object} - Validation result
    */
   validate(value) {
-    // First run the base validation
-    const baseResult = super.validate(value);
-    if (!baseResult.success) {
-      return baseResult;
+    // Handle optional fields first
+    if (value === undefined || value === null) {
+      if (this.isOptional) {
+        return { success: true, value: value };
+      }
+      // For arrays, null should be treated as a type error, not a required field error
+      if (value === null) {
+        return {
+          success: false,
+          error: this.customMessage || 'Value must be an array'
+        };
+      }
+      return {
+        success: false,
+        error: this.customMessage || 'Field is required'
+      };
     }
 
-    // If optional and undefined/null, return success
-    if ((value === undefined || value === null) && this.isOptional) {
-      return baseResult;
+    // Apply all validation rules (including array type check)
+    for (const rule of this.rules) {
+      const result = rule(value);
+      if (!result.success) {
+        return {
+          success: false,
+          error: this.customMessage || result.error
+        };
+      }
     }
 
     // Validate each item in the array
@@ -367,7 +385,7 @@ class ArrayValidator extends Validator {
       }
     }
 
-    return baseResult;
+    return { success: true, value: value };
   }
 }
 
@@ -394,15 +412,33 @@ class ObjectValidator extends Validator {
    * @returns {Object} - Validation result
    */
   validate(value) {
-    // First run the base validation
-    const baseResult = super.validate(value);
-    if (!baseResult.success) {
-      return baseResult;
+    // Handle optional fields first
+    if (value === undefined || value === null) {
+      if (this.isOptional) {
+        return { success: true, value: value };
+      }
+      // For objects, null should be treated as a type error, not a required field error
+      if (value === null) {
+        return {
+          success: false,
+          error: this.customMessage || 'Value must be an object'
+        };
+      }
+      return {
+        success: false,
+        error: this.customMessage || 'Field is required'
+      };
     }
 
-    // If optional and undefined/null, return success
-    if ((value === undefined || value === null) && this.isOptional) {
-      return baseResult;
+    // Apply all validation rules (including object type check)
+    for (const rule of this.rules) {
+      const result = rule(value);
+      if (!result.success) {
+        return {
+          success: false,
+          error: this.customMessage || result.error
+        };
+      }
     }
 
     // Validate each property according to schema
@@ -418,7 +454,7 @@ class ObjectValidator extends Validator {
       }
     }
 
-    return baseResult;
+    return { success: true, value: value };
   }
 }
 

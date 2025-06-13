@@ -369,6 +369,13 @@ test.test('ArrayValidator - maxLength validation', () => {
   test.assertEqual(invalidResult.error, 'Array must not exceed 2 items');
 });
 
+test.test('ArrayValidator - null should fail', () => {
+  const validator = Schema.array(Schema.string());
+  const result = validator.validate(null);
+  test.assert(!result.success, 'Null should fail array validation');
+  test.assertEqual(result.error, 'Value must be an array');
+});
+
 // ===================== Object Validator Tests =====================
 
 test.test('ObjectValidator - valid object should pass', () => {
