@@ -1,0 +1,15 @@
+# Environment Variables Setup
+# 
+# Copy this content to a new file named ".env" in the same directory
+# and replace the placeholder with your actual OpenAI API key
+
+OPENAI_API_KEY=your_openai_api_key_here
+
+# To get your OpenAI API key:
+# 1. Visit https://platform.openai.com/api-keys
+# 2. Sign in to your OpenAI account
+# 3. Create a new API key
+# 4. Copy the key and replace "your_openai_api_key_here" above
+# 5. Save this file as ".env" (remove the _example from the filename)
+
+# IMPORTANT: Never commit your actual API key to version control! 
