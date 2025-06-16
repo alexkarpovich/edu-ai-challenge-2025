@@ -108,7 +108,7 @@ Requirements:
             print("🔍 Analyzing service... This may take a moment.")
             
             response = self.client.chat.completions.create(
-                model="gpt-4",
+                model="gpt-4.1-mini",
                 messages=[
                     {
                         "role": "system",
