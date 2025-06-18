@@ -44,109 +44,82 @@ class ProductSearchTool:
     def get_function_definition(self) -> Dict[str, Any]:
         """Define the function schema for OpenAI function calling."""
         return {
-            "name": "filter_products",
-            "description": "Filter products based on user preferences including category, price range, rating, and stock availability",
+            "name": "filter_and_return_products",
+            "description": "Filter the product dataset based on user preferences and return matching products",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "category": {
-                        "type": "string",
-                        "description": "Product category (Electronics, Fitness, Kitchen, Books, Clothing)",
-                        "enum": ["Electronics", "Fitness", "Kitchen", "Books", "Clothing"]
-                    },
-                    "max_price": {
-                        "type": "number",
-                        "description": "Maximum price the user is willing to pay"
-                    },
-                    "min_price": {
-                        "type": "number",
-                        "description": "Minimum price range (optional)"
-                    },
-                    "min_rating": {
-                        "type": "number",
-                        "description": "Minimum product rating (0.0 to 5.0)"
-                    },
-                    "in_stock_only": {
-                        "type": "boolean",
-                        "description": "Whether to show only products that are in stock"
-                    },
-                    "product_keywords": {
+                    "filtered_products": {
                         "type": "array",
-                        "items": {"type": "string"},
-                        "description": "Keywords to match in product names (e.g., 'wireless', 'gaming', 'smart')"
+                        "description": "Array of products that match the user's criteria",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {"type": "string"},
+                                "category": {"type": "string"},
+                                "price": {"type": "number"},
+                                "rating": {"type": "number"},
+                                "in_stock": {"type": "boolean"}
+                            },
+                            "required": ["name", "category", "price", "rating", "in_stock"]
+                        }
+                    },
+                    "criteria_used": {
+                        "type": "string",
+                        "description": "Description of the filtering criteria that were applied"
                     }
-                }
+                },
+                "required": ["filtered_products", "criteria_used"]
             }
         }
-    
-    def filter_products(self, **kwargs) -> List[Dict[str, Any]]:
-        """Filter products based on the provided criteria."""
-        filtered_products = self.products.copy()
-        
-        # Filter by category
-        if kwargs.get("category"):
-            filtered_products = [p for p in filtered_products if p["category"] == kwargs["category"]]
-        
-        # Filter by price range
-        if kwargs.get("max_price") is not None:
-            filtered_products = [p for p in filtered_products if p["price"] <= kwargs["max_price"]]
-        
-        if kwargs.get("min_price") is not None:
-            filtered_products = [p for p in filtered_products if p["price"] >= kwargs["min_price"]]
-        
-        # Filter by minimum rating
-        if kwargs.get("min_rating") is not None:
-            filtered_products = [p for p in filtered_products if p["rating"] >= kwargs["min_rating"]]
-        
-        # Filter by stock availability
-        if kwargs.get("in_stock_only"):
-            filtered_products = [p for p in filtered_products if p["in_stock"]]
-        
-        # Filter by product keywords
-        if kwargs.get("product_keywords"):
-            keywords = [kw.lower() for kw in kwargs["product_keywords"]]
-            filtered_products = [
-                p for p in filtered_products 
-                if any(keyword in p["name"].lower() for keyword in keywords)
-            ]
-        
-        return filtered_products
     
     def search_products(self, user_query: str) -> List[Dict[str, Any]]:
         """Search products using OpenAI function calling."""
         try:
-            # Create the system message with product information
+            # Create the system message with the complete product dataset
+            products_data = json.dumps(self.products, indent=2)
+            
             system_message = f"""
-            You are a product search assistant. You help users find products from a dataset based on their natural language preferences.
+            You are a product search assistant. You must filter the provided product dataset based on user preferences and return only the matching products.
+
+            PRODUCT DATASET:
+            {products_data}
+
+            INSTRUCTIONS:
+            1. Analyze the user's natural language query to understand their requirements
+            2. Filter the products based on their criteria such as:
+               - Category (Electronics, Fitness, Kitchen, Books, Clothing)
+               - Price constraints (e.g., "under $100", "between $50-$200")
+               - Rating requirements (e.g., "great rating" = 4.5+, "good rating" = 4.0+)
+               - Stock availability ("in stock" = in_stock: true)
+               - Keywords (match in product names)
+            3. Return ONLY the products that match ALL specified criteria
+            4. Use the filter_and_return_products function to return results
             
-            Available product categories: Electronics, Fitness, Kitchen, Books, Clothing
-            Price range in dataset: $9.99 to $1299.99
-            Rating range: 4.0 to 4.8
+            EXAMPLES:
+            - "smartphone under $800" → filter by keyword "smartphone" AND price ≤ 800
+            - "fitness equipment with great ratings" → category "Fitness" AND rating ≥ 4.5
+            - "kitchen appliances under $100 in stock" → category "Kitchen" AND price ≤ 100 AND in_stock = true
             
-            Analyze the user's request and extract filtering criteria. Use the filter_products function to find matching products.
-            Be intelligent about interpreting requests - for example:
-            - "under $X" means max_price = X
-            - "great rating" might mean min_rating = 4.5
-            - "in stock" means in_stock_only = true
-            - "smartphone", "laptop", etc. are keywords to match
+            Be precise in filtering - only return products that truly match the user's requirements.
             """
             
             response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": system_message},
                     {"role": "user", "content": f"Find products based on: {user_query}"}
                 ],
                 functions=[self.get_function_definition()],
-                function_call={"name": "filter_products"}
+                function_call={"name": "filter_and_return_products"}
             )
             
-            # Extract function call arguments
+            # Extract function call results
             function_call = response.choices[0].message.function_call
-            if function_call and function_call.name == "filter_products":
+            if function_call and function_call.name == "filter_and_return_products":
                 arguments = json.loads(function_call.arguments)
-                print(f"Extracted criteria: {arguments}")
-                return self.filter_products(**arguments)
+                print(f"Criteria applied: {arguments.get('criteria_used', 'N/A')}")
+                return arguments.get('filtered_products', [])
             else:
                 print("No function call made by OpenAI.")
                 return []
