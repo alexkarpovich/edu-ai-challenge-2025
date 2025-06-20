@@ -1,0 +1,34 @@
+{
+  "word_count": 587,
+  "speaking_speed_wpm": 147,
+  "frequently_mentioned_topics": [
+    {
+      "topic": "Customer Onboarding",
+      "mentions": 8
+    },
+    {
+      "topic": "Q4 Roadmap",
+      "mentions": 6
+    },
+    {
+      "topic": "AI Integration",
+      "mentions": 7
+    },
+    {
+      "topic": "Engineering Team",
+      "mentions": 4
+    },
+    {
+      "topic": "Performance Optimization",
+      "mentions": 3
+    },
+    {
+      "topic": "New Features",
+      "mentions": 5
+    },
+    {
+      "topic": "Budget Allocation",
+      "mentions": 3
+    }
+  ]
+} 
