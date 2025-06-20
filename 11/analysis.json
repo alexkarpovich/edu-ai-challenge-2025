@@ -1,34 +1,18 @@
 {
-  "word_count": 587,
-  "speaking_speed_wpm": 147,
+  "word_count": 982,
+  "speaking_speed_wpm": 140,
   "frequently_mentioned_topics": [
     {
-      "topic": "Customer Onboarding",
+      "topic": "Chest pain and symptoms",
+      "mentions": 20
+    },
+    {
+      "topic": "Heart attack and cardiac concerns",
+      "mentions": 10
+    },
+    {
+      "topic": "Medical history and lifestyle factors",
       "mentions": 8
-    },
-    {
-      "topic": "Q4 Roadmap",
-      "mentions": 6
-    },
-    {
-      "topic": "AI Integration",
-      "mentions": 7
-    },
-    {
-      "topic": "Engineering Team",
-      "mentions": 4
-    },
-    {
-      "topic": "Performance Optimization",
-      "mentions": 3
-    },
-    {
-      "topic": "New Features",
-      "mentions": 5
-    },
-    {
-      "topic": "Budget Allocation",
-      "mentions": 3
     }
   ]
-} 
+}
