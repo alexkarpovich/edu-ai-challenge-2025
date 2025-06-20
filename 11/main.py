@@ -114,7 +114,7 @@ class SpeechAnalyzer:
             
             # Use GPT to extract topics and calculate speaking speed
             response = self.client.chat.completions.create(
-                model="gpt-4",
+                model="gpt-4.1-mini",
                 messages=[
                     {
                         "role": "system",
